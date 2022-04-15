@@ -118,22 +118,26 @@ public class HW5 {
             return average1;
         } else {
             average = ((t1 + t2 + t3 + t4 + t5) / 5);
-            int average2 = (int) average;
-            String average2a = String.valueOf(average2);
-            int average3 = (int) ((average - average2) * 10);
-            String average4 = String.valueOf(average3);
-            average1 = ("Средняя температура кота за 5 дней составила: " + average2a + "." + average4);
+            average1 = String.format("%.2f", average);
+//            int average2 = (int) average;
+//            String average2a = String.valueOf(average2);
+//            int average3 = (int) ((average - average2) * 10);
+//            String average4 = String.valueOf(average3);
+//            average1 = ("Средняя температура кота за 5 дней составила: " + average2a + "." + average4);
             System.out.println(average1);
             return average1;
         }
     }
+
+
+
     // 6.Написать метод, который принимает на вход десятичное число (например, 10.75),
     // и возвращает строку “10 руб 75 коп”.
 
     public static String convertNumberToString(double num) {
         int num1 = (int) num;
         String num1a = String.valueOf(num1);
-        int num2 = (int) ((num - num1) * 100);
+        int num2 = (int) Math.round((num - num1) * 100);
         String num2a = String.valueOf(num2);
         System.out.println(num1a + " руб " + num2a + " коп");
         return num1a + " руб " + num2a + " коп";
@@ -142,11 +146,10 @@ public class HW5 {
     //7.Написать метод, который принимает на вход десятичное число и возвращает строку “10 кг 75 гр”.
 
     public static String convertNumberToString1(double num) {
-        int num1 = (int) num;
-        String num1a = String.valueOf(num1);
-        int num2 = (int) ((num - num1) * 1000);
-        String num2a = String.valueOf(num2);
-        System.out.println(num1 + " кг " + num2 + " гр");
+       String numall = Double.toString(num);
+        String num1a = numall.substring(0, numall.indexOf("."));
+        String num2a = numall.substring(numall.indexOf(".") + 1);
+        System.out.println(num1a + " кг " + num2a + " гр");
         return num1a + " кг " + num2a + " гр";
     }
 
@@ -154,11 +157,11 @@ public class HW5 {
     // (может быть вес товара, или количество в штуках).
     // Алгоритм возвращает сумму покупки в виде десятичного числа.
 
-    public static Double summaPokupki(double price, double amount) {
+    public static String summaPokupki(double price, double amount) {
 
         double itogo = price * amount;
-        System.out.println(itogo);
-        return itogo;
+        System.out.println(String.format("%.2f",itogo));
+        return String.format("%.2f",itogo);
     }
 
     // 9.Написать метод, который принимает на вход необходимые параметры, и печатает чек.
@@ -297,30 +300,25 @@ public class HW5 {
 
     public static String countHappyNum(int year) {
 
-        int yearNum4 = year % 10;
-        int yearNum3 = (year % 100 - yearNum4) / 10;
-        int yearNum2 = (year % 1000 - yearNum3 * 10 - yearNum4) / 100;
-        int yearNum1 = (year - yearNum2 * 100 - yearNum3 * 10 - yearNum4) / 1000;
+        int yearNum4 = year % 10;//нахождение 4 го числа в годе
+        int yearNum3 = year % 100 / 10;
+        int yearNum2 = year / 100 % 10;
+        int yearNum1 = year / 1000;
         int happyNum4 = yearNum1 + yearNum2 + yearNum3 + yearNum4;
         String happyNumStr = String.valueOf(happyNum4);
-
-        int sumHappyNum1;
-        int sumHappyNum2;
-        int happyNum2;
-        int num1OfHappyNum2;
-        int num2OfHappyNum2;
-        int happyNum22;
+        int sumHappyNum1 = happyNum4 % 10;
+        int sumHappyNum2 = (happyNum4 - sumHappyNum1) / 10;
+        int happyNum2 = sumHappyNum1 + sumHappyNum2;
+        String happyNum2Str = String.valueOf(happyNum2);
+        int num2OfHappyNum2 = happyNum2 % 10;
+        int num1OfHappyNum2 = (happyNum2 - num2OfHappyNum2)/ 10;
+        int happyNum22 = num1OfHappyNum2 + num2OfHappyNum2;
+        String happyNum22Str = String.valueOf(happyNum22);
 
         if (happyNum4 > 9) {
-            sumHappyNum1 = happyNum4 % 10;
-            sumHappyNum2 = (happyNum4 - sumHappyNum1) / 10;
-            happyNum2 = sumHappyNum1 + sumHappyNum2;
-            String happyNum2Str = String.valueOf(happyNum2);
+
             if (happyNum2 > 9) {
-                num2OfHappyNum2 = happyNum2 % 10;
-                num1OfHappyNum2 = (happyNum2 - num2OfHappyNum2)/ 10;
-                happyNum22 = num1OfHappyNum2 + num2OfHappyNum2;
-                String happyNum22Str = String.valueOf(happyNum22);
+
                 if (happyNum22 > 9) {
                     System.out.println("Ваше счастливое число - " + happyNum2Str);
                     return "Ваше счастливое число - " + happyNum2Str;
@@ -351,6 +349,9 @@ public class HW5 {
         String medianStr = String.valueOf(median);
         int differ = average - median;
         String differStr = String.valueOf(differ);
+        if (differ < 0){
+            differ =(-1) * differ;
+        }
 
         if (differ > 2) {
             System.out.println("Среднее значение " + averageStr + " отличается от медианы " + medianStr + " на " + differStr);
@@ -365,11 +366,13 @@ public class HW5 {
     // и округляет сумму в пользу покупателя. Метод возвращает новую сумму к оплате в виде строки, например “10 руб 00 коп”.
 
     public static String  roundPay(double a){
-        double a1 = Math.floor(a);  //окргулила дабл 10.75 до  a1 = 10.00 тип дабл
-        int a2 = (int)a;// число до точки 10
-        String a2Str = String.valueOf(a2); // a1Str = "10"
-        System.out.println(a2Str + " руб 00 коп.");
-        return a2Str + " руб 00 коп.";
+        int a2 = (int)a;
+        String a2Str = String.valueOf(a2);
+        double b2 = (a - a2) * 100;
+        String b2okr = String.format("%.0f", b2);
+
+        System.out.println(a2Str + " руб " +  b2okr  + "коп.");
+        return a2Str + " руб " +  b2okr  + "коп.";
     }
 
     //16.Посчитать с помощью методов класса Math
@@ -380,31 +383,54 @@ public class HW5 {
     //((a * b + c) * ab)
     //Вернуть значение с округлением в бОльшую сторону.
     public static double okruglToBig(int a, int b, int c){
-        double a1 = a;
-        double b2 = b;
-        double c2 = c;
-        double x = a * b + c;
-        double y = Math.pow(a, b);
-        double z = x * y;
-        double h = Math.sqrt(z);
-        double s = h / Math.PI;
+        double s = Math.sqrt((a * b + c) * (Math.pow(a, b))) / Math.PI;
         s = Math.ceil(s);
 
         System.out.println(s);
         return s;
     }
-    //17.x=1,  if y>0; double
+// //17.x=1,  if y>0;
+    public static void primer(int y){
+        int x;
+        if (y > 0 ){
+            System.out.println(x = 1);
+        }
+    }
     // + 5, if  число между 80 и 90
-    //переписать без ! item = ! (i <10)||(v >= 50)
-    //print true if x is odd positive
+    public static void task17p2(double score){
+        if (score >= 80 && score <= 90) {
+            System.out.println(score + 5);
+        }
+    }
+    // //переписать без ! item = ! (i <10)||(v >= 50)
+    public static boolean task17p3(int i, int v){
+        boolean item = (i >= 10)&&(v < 50);//&& и || противоположны при отрицании
+        return item;
+    }
+    ////print true if x is odd positive
+    public static void task17p4(int x){
+        if (x % 2 != 0 && x >= 0){
+            System.out.println("true");
+        } else {
+            System.out.println("false");
+        }
+    }
     //print true x both x and y positive
+    public static void task17p5(int x, int y){
+        if (x >= 0 && y >= 0 ){
+            System.out.println("true");
+        } else {
+            System.out.println("false");
+        }
+    }
     //if x y same (-/+)
-//
-//    public static void primer(double x, double y){
-//        x = 1
-//
-//    }
-
+    public static void task17p6(int x, int y){
+        if (x >= 0 && y >= 0 || x < 0 && y <0 ){
+            System.out.println("true");
+        } else {
+            System.out.println("false");
+        }
+    }
 
 
 
@@ -414,51 +440,72 @@ public class HW5 {
     //
     //Число может быть в пределах от 0 до 1 исключительно.
     //Степень числа может быть от 0 до 10 включительно
-    public static String roundPow(int min, int max, int stMin, int stMax) {
-        min = 0;
-        max = 1;
-        stMin = 0;
-        stMax = 10;
-        int diapason = max + min + 1;
-        int diapasonStep = stMax + stMin + 1;
-        double roundNum = (Math.random() * diapason);
-        long roundNum1 = Math.round(roundNum);
-        String roundNumStr = String.valueOf(roundNum1);
-        double roundSt = (Math.random() * diapasonStep);
-        long roundSt1 = Math.round(roundSt);
-        String roundStStr = String.valueOf(roundSt1);
-        double result = Math.pow(roundNum, roundSt);
-        long result1 = Math.round(result);
-        String res1 = String.valueOf(result1);
-        System.out.println("Число " + roundNumStr + " в степени " + roundStStr + " = " + res1);
-        return "Число " + roundNumStr + " в степени " + roundStStr + " = " + res1;
+    public static double roundPow(int pow) {
+//        min = 0;
+//        max = 1;
+//        stMin = 0;
+//        stMax = 10;
+//        int diapason = max + min + 1;
+//        int diapasonStep = stMax + stMin + 1;
+//        double roundNum = (Math.random() * diapason);
+//        long roundNum1 = Math.round(roundNum);
+//        String roundNumStr = String.valueOf(roundNum1);
+//        double roundSt = (Math.random() * diapasonStep);
+//        long roundSt1 = Math.round(roundSt);
+//        String roundStStr = String.valueOf(roundSt1);
+//        double result = Math.pow(roundNum, roundSt);
+//        long result1 = Math.round(result);
+//        String res1 = String.valueOf(result1);
+//        System.out.println("Число " + roundNumStr + " в степени " + roundStStr + " = " + res1);
+//        return "Число " + roundNumStr + " в степени " + roundStStr + " = " + res1;
+        if( pow >= 0 && pow <= 10){
+           // return Math.pow(Math.random(), pow * 1.0);
+            System.out.println(Math.pow(Math.random(), pow * 1.0));
+            return Math.pow(Math.random(), pow);
+        }else{
+            System.out.println("error");
+            return Double.MIN_VALUE;
+        }
     }
 
     //19/Написать метод, который возвращает случайное число в пределах от 1 до 99 включительно.
 
-    public static double rnd(int min, int max) {
-        int diapason = max + min + 1;
-        double roundNum = (Math.random() * diapason);
-        long roundNum1 = Math.round(roundNum);
-
-        System.out.println(roundNum1);
-        return roundNum1;
+    public static double rnd() {
+        int num1 = (int)(Math.random() * 99) +1;
+        System.out.println(num1);
+        return num1;
         }
 
     // 20. int year, boolean isLeapYear;
     //присвоить булеану правда,если год высокосный и не правда, если нет. высокосный- %4 = 0.
-    public static boolean leap(int year){
+    public static boolean leap(int year) {
         boolean isLeapYear;
-        int a = year % 4;
-        if ( a == 0 ){
-            System.out.println("true");
-            return true;
-        } else {
-            System.out.println("false");
-            return false;
-        }
+//        int a = year % 4;
+//        if ( a == 0 ){
+//            System.out.println("true");
+//            return true;
+//        } else {
+//            System.out.println("false");
+//            return false;
+//        }
+        //2 вариант
+//        if(year % 4 == 0){
+//            if(year % 100 == 0){
+//                if(year % 400 == 0){
+//                    isLeapYear = true;
+//                }else{
+//                    isLeapYear = false;
+//                }
+//            }else{
+//                isLeapYear = true;
+//            }
+//        }else{
+//            isLeapYear = false;
+//        }
+//        return isLeapYear;
+//
+        return (year % 100 == 0 && year % 400 == 0 || year % 4 == 0 && year % 100 > 0);
     }
-
 
     public static void main(String[] args) {
 
@@ -508,14 +555,15 @@ public class HW5 {
         convertNumberToString1(56.8);
         //test: 56.8 ;
         System.out.println(test);
-        verifyEquals(convertNumberToString1(56.8), "56 кг 799 гр");
+        verifyEquals(convertNumberToString1(56.8), "56 кг 8 гр");
 
 
         printTask(8);
         summaPokupki(3.78, 2.900);
+        summaPokupki(0.5,100.05);
         //test: 0.5, 100.05
         System.out.println(test);
-        verifyEquals(summaPokupki(0.5, 100.05), 50.025);
+     verifyEquals(summaPokupki(0.5,100.05), "50.03");
 
         printTask(9);
         printChek(78.8, 67.0);
@@ -585,7 +633,7 @@ public class HW5 {
 
         System.out.println(test);
         //test:78.0000
-        verifyEquals(roundPay(78.000), "78 руб 00 коп.");
+        verifyEquals(roundPay(78.000), "78 руб 0коп.");
 
         printTask(16);
         okruglToBig(1,2,3);
@@ -598,11 +646,10 @@ public class HW5 {
 
 
         printTask(18);
-        roundPow(0,1,0,10);
+        roundPow(2);
 
         printTask(19);
-        rnd(1,89);
-        rnd(0,0);
+      rnd();
 
 
 

@@ -22,15 +22,15 @@ public class HW6 {
             }
 
 //12/Напишите метод, который принимает целое число n, и выводит все степени числа 2 от 1 до n включительно
-//    public static void print12(int n) {
-//        int end = 0;
-//        for (int i = 0; end < n; i) {
-//            if(i ){
-//                System.out.println(i + "----12-----");
-//            }
-//        }
-//
-//    }
+    public static void print12(int n) {
+        int end = 0;
+        for (int i = 2; end < n; i *= 2) {
+            end++;
+                System.out.println(i + "----12-----");
+            }
+        }
+
+
     //16.Написать метод, который принимает параметры n, m, , и печатает последовательность
     // нечетных чисел начиная с числа n, с шагом m,  длина последовательности  l.
     public static void print16(int n, int m, int l){
@@ -50,22 +50,31 @@ public class HW6 {
             System.out.println(i);
         }
     }
-    //18.Написать метод, который принимает параметры , n, и печатает последовательность чисел,
+
+    //18.Написать метод, который принимает параметры l, n, и печатает последовательность чисел,
     // начиная с числа n, по формуле для n + 1 члена последовательности:
     //n + 1 = 2n
     //Длина последовательности l .
-    public static void print18(int n, int l ) {
-        for ( int i = n; i < l; i *= 2) {
+
+
+    public static void print18(int n, int l) {
+        int end2 = 0;
+        for (int i = n; end2 < l; i *= 2) {
             System.out.println(i);
+            end2++;
         }
     }
 
 
-    public static void main(String[] args) {
 
+
+    public static void main(String[] args) {
+print12(5);
+print18(3,4);
        print0toL(10);
         print16(6,9,8);
-        print10(7.9,1.0,2.0);
+        print16(1, 3, 29);
+    print10(7.9,1.0,2.0);
       //  print17(2);
         System.out.println("----");
         print18(1,8);
@@ -175,19 +184,13 @@ public class HW6 {
         //19/Сгенерируйте последовательность целых положительных  двузначных чисел, в которых разница
         // между первой цифрой (десятки) и второй цифрой (единицы) не превышает 3.
         //20
+        for (int i = 10;i < 100; i ++){
+            if(Math.abs((i / 10) - (i % 10)) <= 3){ //нахождение единиц и десятков
+                System.out.println(i + "********");
+            }
+        }
 
 
-
-        String bottles = " bottles of beer";
-        String bottle = " bottle of beer";
-        String wall = " on the wall";
-        String take = "Take one down and pass it around";
-        String commaSpace = ", ";
-        String dot = ".";
-        String go = "Go to the store and buy some more";
-        String noMoreC = "No more";
-        String noMoreL = "no more";
-        String ln = "\n";
 
 
 
